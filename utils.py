@@ -7,7 +7,6 @@ def get_foundation_date():
 
 def parse_drinks(drinks):
     drinks_chunk = {}
-    print(drinks.split('\n'))
     for chunk in drinks.split('\n'):
         if 'Название' in chunk:
             drinks_chunk['title'] = chunk.split(': ')[-1]
@@ -22,13 +21,14 @@ def parse_drinks(drinks):
     return drinks_chunk
 
 
-
-
 def collect_drinks(drinks):
     drinks_collection = []
     for chunk in drinks.split('\n\n\n'):
         if '#' in chunk:
-            category = dict(name=chunk.split('# ')[-1], drinks=[])
+            category = {
+                'name': chunk.split('# ')[-1],
+                'drinks': [],
+            }
         else:
             parsed_data = [parse_drinks(drink) for drink in chunk.split('\n\n')]
             category['drinks'].extend(parsed_data)
